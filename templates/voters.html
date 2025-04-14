@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registered Voters</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="p-5">
+    <div class="container">
+        <h2>👥 Voter Registrations</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Name</th><th>Email</th><th>Age</th><th>Election</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for voter in voters %}
+                <tr>
+                    <td>{{ voter[0] }}</td>
+                    <td>{{ voter[1] }}</td>
+                    <td>{{ voter[2] }}</td>
+                    <td>{{ voter[3] }}</td>
+                    <td>{{ voter[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
+    </div>
+</body>
+</html>
