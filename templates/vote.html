@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Cast Vote{% endblock %}
+
+{% block content %}
+<div class="card p-4 bg-secondary bg-gradient">
+    <h2 class="mb-4 text-white">Cast Your Vote</h2>
+    <form action="/vote" method="POST">
+        <!-- Hidden input to pass election_id -->
+        <input type="hidden" name="election_id" value="{{ election_id }}">
+
+        <div class="mb-3">
+            <label for="voter_id" class="form-label text-white">Your Voter ID</label>
+            <input type="number" class="form-control" id="voter_id" name="voter_id" required>
+        </div>
+        <div class="mb-3">
+            <label for="candidate_id" class="form-label text-white">Select Candidate</label>
+            <select class="form-select" id="candidate_id" name="candidate_id" required>
+                {% for candidate in candidates %}
+                <option value="{{ candidate[0] }}">{{ candidate[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Submit Vote</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Edit Candidate{% endblock %}
+
+{% block content %}
+<div class="card p-4 bg-secondary bg-gradient">
+    <h2 class="mb-4 text-white">Edit Candidate</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label text-white">Candidate Name</label>
+            <input type="text" name="name" class="form-control" value="{{ candidate[1] }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-white">Election</label>
+            <select name="election_id" class="form-select" required>
+                {% for election in elections %}
+                <option value="{{ election[0] }}" {% if election[0] == candidate[2] %}selected{% endif %}>
+                    {{ election[1] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}
