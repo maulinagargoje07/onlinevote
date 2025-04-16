@@ -1,27 +1,33 @@
 {% extends "base.html" %}
-
-{% block title %}Cast Vote{% endblock %}
-
+{% block title %}Vote{% endblock %}
 {% block content %}
-<div class="card p-4 bg-secondary bg-gradient">
-    <h2 class="mb-4 text-white">Cast Your Vote</h2>
-    <form action="/vote" method="POST">
-        <!-- Hidden input to pass election_id -->
-        <input type="hidden" name="election_id" value="{{ election_id }}">
+<div class="container mt-5">
+    <h2 class="mb-4">🗳️ Cast Your Vote</h2>
 
-        <div class="mb-3">
-            <label for="voter_id" class="form-label text-white">Your Voter ID</label>
-            <input type="number" class="form-control" id="voter_id" name="voter_id" required>
+    <form method="GET" action="{{ url_for('vote') }}">
+        <div class="form-group">
+            <label for="voter_id">Enter Voter ID:</label>
+            <input type="text" class="form-control" name="voter_id" id="voter_id" value="{{ voter_id or '' }}" required>
         </div>
-        <div class="mb-3">
-            <label for="candidate_id" class="form-label text-white">Select Candidate</label>
-            <select class="form-select" id="candidate_id" name="candidate_id" required>
+        <button type="submit" class="btn btn-info mt-2">Check Election</button>
+    </form>
+
+    {% if voter_found %}
+    <form method="POST" class="mt-4">
+        <input type="hidden" name="voter_id" value="{{ voter_id }}">
+        <div class="form-group">
+            <label for="candidate_id">Select Candidate:</label>
+            <select class="form-control" name="candidate_id" id="candidate_id" required>
+                <option value="">-- Choose Candidate --</option>
                 {% for candidate in candidates %}
                 <option value="{{ candidate[0] }}">{{ candidate[1] }}</option>
                 {% endfor %}
             </select>
         </div>
-        <button type="submit" class="btn btn-success">Submit Vote</button>
+        <button type="submit" class="btn btn-success mt-2">Cast Vote</button>
     </form>
+    {% elif voter_id %}
+        <p class="text-danger mt-3">❌ No voter found with ID "{{ voter_id }}" or not enrolled in any election.</p>
+    {% endif %}
 </div>
 {% endblock %}

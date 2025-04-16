@@ -1,16 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Registered Voters</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>View Voters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .btn-custom {
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
 </head>
-<body class="p-5">
+<body>
+
     <div class="container">
-        <h2>👥 Voter Registrations</h2>
-        <table class="table table-bordered">
+        <h1 class="text-center mb-4">Registered Voters</h1>
+
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>ID</th><th>Name</th><th>Email</th><th>Age</th><th>Election</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Election</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,11 +56,14 @@
                     <td>{{ voter[2] }}</td>
                     <td>{{ voter[3] }}</td>
                     <td>{{ voter[4] }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_voter', id=voter[0]) }}" class="btn btn-delete btn-custom" onclick="return confirm('Are you sure you want to delete this voter?')">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
     </div>
+
 </body>
 </html>

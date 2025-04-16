@@ -3,15 +3,51 @@
 {% block title %}Election Results{% endblock %}
 
 {% block content %}
-<div class="card p-4 bg-secondary bg-gradient">
-    <h2 class="mb-4 text-white">Election Results</h2>
-    <ul class="list-group">
-        {% for result in results %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>{{ result[0] }} (Election ID: {{ result[2] }})</span>
-            <span class="badge bg-primary rounded-pill">{{ result[1] }} Votes</span>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="container mt-4">
+    <div class="card p-4 bg-dark text-white shadow">
+        <h2 class="mb-4">🗳️ Election Results</h2>
+
+        <form method="POST" action="{{ url_for('results') }}" class="mb-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-6">
+                    <label for="election_id" class="form-label">Select Election</label>
+                    <select name="election_id" id="election_id" class="form-select">
+                        <option value="">All Elections</option>
+                        {% for election in elections %}
+                        <option value="{{ election[0] }}" {% if selected_election == election[0]|string %}selected{% endif %}>
+                            {{ election[1] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">🔍 View</button>
+                </div>
+
+                {% if session.admin %}
+                <div class="col-md-4 text-end">
+                    <form method="POST" action="{{ url_for('reset_results') }}" onsubmit="return confirm('Are you sure you want to reset all election results?')">
+                        <button type="submit" class="btn btn-danger w-100">🔁 Reset All Results</button>
+                    </form>
+                </div>
+                {% endif %}
+                
+
+            </div>
+        </form>
+
+        {% if results %}
+        <ul class="list-group">
+            {% for result in results %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ result[0] }} - {{ result[1] }}</span>
+                <span class="badge bg-success rounded-pill">{{ result[2] }} Votes</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="mt-4 text-warning">⚠️ No results found for the selected election.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
